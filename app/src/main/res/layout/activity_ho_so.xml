@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <!-- Top Bar -->
+    <LinearLayout
+        android:id="@+id/topBarHoSo"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/white"
+        android:elevation="2dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hồ sơ cá nhân"
+            android:textColor="@color/text_primary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomNavHoSo"
+        android:layout_below="@id/topBarHoSo">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Profile Info Card -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_card_white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <FrameLayout
+                    android:id="@+id/layoutAvatarHoSo"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:background="@drawable/bg_circle_avatar"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:id="@+id/imgAvatarHoSo"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_profile" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvHoTenHoSo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nguyễn Văn A"
+                        android:textColor="@color/text_primary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvEmailHoSo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="nguyenvana@gmail.com"
+                        android:textColor="@color/text_muted"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/tvVaiTroHoSo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/bg_badge_tag"
+                        android:text="Khách hàng thân thiết"
+                        android:textColor="@color/primary"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Menu items according to Wireframe 9 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/menuDonHang"
+                    style="@style/MenuItemRow"
+                    android:drawableStart="@drawable/ic_cart"
+                    android:drawableEnd="@drawable/ic_chevron_right"
+                    android:drawablePadding="14dp"
+                    android:text="Đơn hàng của tôi" />
+
+                <TextView
+                    android:id="@+id/menuDiaChi"
+                    style="@style/MenuItemRow"
+                    android:drawableStart="@drawable/ic_home"
+                    android:drawableEnd="@drawable/ic_chevron_right"
+                    android:drawablePadding="14dp"
+                    android:text="Địa chỉ giao hàng" />
+
+                <TextView
+                    android:id="@+id/menuPhuongThuc"
+                    style="@style/MenuItemRow"
+                    android:drawableStart="@drawable/ic_credit_card"
+                    android:drawableEnd="@drawable/ic_chevron_right"
+                    android:drawablePadding="14dp"
+                    android:text="Phương thức thanh toán" />
+
+                <TextView
+                    android:id="@+id/menuHoSoThuCung"
+                    style="@style/MenuItemRow"
+                    android:drawableStart="@drawable/ic_paw"
+                    android:drawableEnd="@drawable/ic_chevron_right"
+                    android:drawablePadding="14dp"
+                    android:text="Hồ sơ thú cưng" />
+
+                <TextView
+                    android:id="@+id/menuUuDai"
+                    style="@style/MenuItemRow"
+                    android:drawableStart="@drawable/ic_heart"
+                    android:drawableEnd="@drawable/ic_chevron_right"
+                    android:drawablePadding="14dp"
+                    android:text="Ưu đãi &amp; khuyến mãi" />
+
+                <TextView
+                    android:id="@+id/menuTinTuc"
+                    style="@style/MenuItemRow"
+                    android:drawableStart="@drawable/ic_notification"
+                    android:drawableEnd="@drawable/ic_chevron_right"
+                    android:drawablePadding="14dp"
+                    android:text="Danh sách tin tức &amp; Cẩm nang" />
+
+                <TextView
+                    android:id="@+id/menuAdminPanel"
+                    style="@style/MenuItemRow"
+                    android:background="@drawable/bg_card_white"
+                    android:drawableStart="@drawable/ic_inventory"
+                    android:drawableEnd="@drawable/ic_chevron_right"
+                    android:drawablePadding="14dp"
+                    android:text="Khu vực Quản trị (Admin Panel)"
+                    android:textColor="@color/primary"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/menuDangXuat"
+                    style="@style/MenuItemRow"
+                    android:drawableStart="@drawable/ic_logout"
+                    android:drawableEnd="@drawable/ic_chevron_right"
+                    android:drawablePadding="14dp"
+                    android:text="Đăng xuất"
+                    android:textColor="@color/danger" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Bottom Nav -->
+    <include
+        android:id="@+id/bottomNavHoSo"
+        layout="@layout/bottom_nav_user"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

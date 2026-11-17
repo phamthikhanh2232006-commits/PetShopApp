@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <LinearLayout
+        android:id="@+id/topBarThemSP"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/white"
+        android:elevation="2dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp">
+
+        <ImageView
+            android:id="@+id/btnBackThemSP"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:padding="4dp"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:id="@+id/tvTieuDeThemSP"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:text="Thêm sản phẩm mới"
+            android:textColor="@color/text_primary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/btnXoaSP"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:padding="4dp"
+            android:src="@drawable/ic_delete_red"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomBarLuuSP"
+        android:layout_below="@id/topBarThemSP">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView style="@style/FormLabel" android:text="Tên sản phẩm / Phụ kiện *" />
+            <EditText android:id="@+id/etTenSP" style="@style/FormInput" android:hint="VD: Áo len cổ lọ cho cún" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView style="@style/FormLabel" android:text="Giá bán (VNĐ) *" />
+                    <EditText android:id="@+id/etGiaBan" style="@style/FormInput" android:hint="150000" android:inputType="numberDecimal" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView style="@style/FormLabel" android:text="Số lượng tồn kho *" />
+                    <EditText android:id="@+id/etSoLuongTon" style="@style/FormInput" android:hint="20" android:inputType="number" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView style="@style/FormLabel" android:text="Mã vạch (Barcode) *" />
+            <EditText android:id="@+id/etMaVach" style="@style/FormInput" android:hint="VD: 8935001" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView style="@style/FormLabel" android:text="Loài *" />
+                    <Spinner
+                        android:id="@+id/spnLoai"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/bg_rounded_edittext" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView style="@style/FormLabel" android:text="Ngưỡng cảnh báo hết" />
+                    <EditText android:id="@+id/etMucCanhBao" style="@style/FormInput" android:hint="5" android:inputType="number" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView style="@style/FormLabel" android:text="Kích cỡ (phân tách bởi dấu phẩy)" />
+            <EditText android:id="@+id/etKichCo" style="@style/FormInput" android:hint="S, M, L, XL hoặc 500g, 1kg" />
+
+            <TextView style="@style/FormLabel" android:text="Màu sắc (phân tách bởi dấu phẩy)" />
+            <EditText android:id="@+id/etMauSac" style="@style/FormInput" android:hint="Đỏ, Xanh, Vàng" />
+
+            <TextView style="@style/FormLabel" android:text="Mô tả chi tiết" />
+            <EditText
+                android:id="@+id/etMoTa"
+                style="@style/FormInput"
+                android:layout_height="80dp"
+                android:gravity="top|start"
+                android:hint="Chất liệu, nguồn gốc xuất xứ, lưu ý sử dụng..."
+                android:paddingTop="10dp" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/bottomBarLuuSP"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:elevation="8dp"
+        android:gravity="center"
+        android:paddingHorizontal="16dp">
+
+        <Button
+            android:id="@+id/btnLuuSP"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="@drawable/bg_button_primary"
+            android:text="Lưu sản phẩm"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</RelativeLayout>

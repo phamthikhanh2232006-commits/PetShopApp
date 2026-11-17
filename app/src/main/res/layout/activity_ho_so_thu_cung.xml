@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <!-- Top Bar -->
+    <LinearLayout
+        android:id="@+id/topBarHoSoThuCung"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/white"
+        android:elevation="2dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp">
+
+        <ImageView
+            android:id="@+id/btnBackHoSoThuCung"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:padding="4dp"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:text="Hồ sơ thú cưng"
+            android:textColor="@color/text_primary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/topBarHoSoThuCung">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Avatar picker -->
+            <FrameLayout
+                android:id="@+id/layoutThuCungAvatarPicker"
+                android:layout_width="88dp"
+                android:layout_height="88dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_circle_avatar"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:id="@+id/imgThuCungAvatar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_paw" />
+            </FrameLayout>
+
+            <!-- Tên thú cưng -->
+            <TextView
+                style="@style/FormLabel"
+                android:text="Tên thú cưng *" />
+
+            <EditText
+                android:id="@+id/etTenThuCung"
+                style="@style/FormInput"
+                android:hint="Nhập tên thú cưng (VD: Lucky, Mimi...)" />
+
+            <!-- Loài -->
+            <TextView
+                style="@style/FormLabel"
+                android:text="Loài *" />
+
+            <Spinner
+                android:id="@+id/spnLoaiThuCung"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/bg_rounded_edittext"
+                android:paddingHorizontal="14dp" />
+
+            <!-- Giống -->
+            <TextView
+                style="@style/FormLabel"
+                android:text="Giống loài" />
+
+            <EditText
+                android:id="@+id/etGiongLoai"
+                style="@style/FormInput"
+                android:hint="Poodle, Corgi, Mèo Ba Tư, Mèo Anh..." />
+
+            <!-- Ngày sinh -->
+            <TextView
+                style="@style/FormLabel"
+                android:text="Ngày sinh" />
+
+            <LinearLayout
+                android:id="@+id/layoutChonNgaySinh"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/bg_rounded_edittext"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="14dp">
+
+                <TextView
+                    android:id="@+id/tvNgaySinh"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Chọn ngày sinh"
+                    android:textColor="@color/text_muted"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/ic_calendar" />
+            </LinearLayout>
+
+            <!-- Giới tính -->
+            <TextView
+                style="@style/FormLabel"
+                android:text="Giới tính" />
+
+            <RadioGroup
+                android:id="@+id/rgGioiTinh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rbDuc"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_card_white"
+                    android:checked="true"
+                    android:text="Đực ♂"
+                    android:textColor="@color/text_primary" />
+
+                <RadioButton
+                    android:id="@+id/rbCai"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_card_white"
+                    android:text="Cái ♀"
+                    android:textColor="@color/text_primary" />
+            </RadioGroup>
+
+            <!-- Cân nặng -->
+            <TextView
+                style="@style/FormLabel"
+                android:text="Cân nặng (kg)" />
+
+            <EditText
+                android:id="@+id/etCanNang"
+                style="@style/FormInput"
+                android:hint="Nhập cân nặng (VD: 4.5)"
+                android:inputType="numberDecimal" />
+
+            <!-- Ghi chú / Thói quen -->
+            <TextView
+                style="@style/FormLabel"
+                android:text="Ghi chú sở thích / dị ứng" />
+
+            <EditText
+                android:id="@+id/etGhiChuThuCung"
+                style="@style/FormInput"
+                android:hint="Thích hạt vị gà, dị ứng sữa bò..." />
+
+            <!-- Nút Lưu -->
+            <Button
+                android:id="@+id/btnLuuThuCung"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/bg_button_primary"
+                android:text="Lưu thông tin"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <!-- Danh sách thú cưng đã tạo -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:text="Danh sách thú cưng của bạn"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvThuCungCuaToi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:nestedScrollingEnabled="false" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>

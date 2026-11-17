@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Pet Shop</string>
+    <string name="slogan">Quản lý cửa hàng phụ kiện thú cưng</string>
+    <string name="welcome">Chào mừng đến Pet Shop</string>
+    <string name="search_hint">Tìm kiếm phụ kiện, thức ăn, mã vạch...</string>
+    <string name="category_dog">Chó</string>
+    <string name="category_cat">Mèo</string>
+    <string name="category_bird">Chim</string>
+    <string name="category_fish">Cá &amp; Thú nhỏ</string>
+    <string name="featured_products">Sản phẩm nổi bật</string>
+    <string name="cart">Giỏ hàng</string>
+    <string name="checkout">Thanh toán</string>
+    <string name="add_to_cart">Thêm vào giỏ hàng</string>
+    <string name="profile">Hồ sơ cá nhân</string>
+    <string name="pet_profile">Hồ sơ thú cưng</string>
+    <string name="admin_panel">Admin Panel</string>
+</resources>
