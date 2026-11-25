@@ -72,9 +72,8 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.ViewHold
             holder.tvTonKho.setTextColor(context.getColor(R.color.text_muted));
         }
 
-        // Icon theo loài hoặc ảnh từ drawable
-        int drawableRes = FormatUtils.getProductDrawableRes(context, sp.getHinhAnh(), sp.getLoaiThuCung());
-        holder.imgSP.setImageResource(drawableRes);
+        // Hiển thị ảnh sản phẩm (hỗ trợ ảnh tải lên từ thiết bị, URI hoặc drawable)
+        FormatUtils.loadProductImage(holder.imgSP, sp.getHinhAnh(), sp.getLoaiThuCung());
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) listener.onSanPhamClick(sp);

@@ -48,19 +48,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         holder.tvGiaSP.setText(FormatUtils.formatVND(item.getSanPham().getGiaBan()));
         holder.tvSoLuong.setText(String.valueOf(item.getSoLuong()));
 
-        // Icon
-        String loai = item.getSanPham().getLoaiThuCung();
-        if ("Chó".equalsIgnoreCase(loai)) {
-            holder.imgSP.setImageResource(R.drawable.ic_dog);
-        } else if ("Mèo".equalsIgnoreCase(loai)) {
-            holder.imgSP.setImageResource(R.drawable.ic_cat);
-        } else if ("Chim".equalsIgnoreCase(loai)) {
-            holder.imgSP.setImageResource(R.drawable.ic_bird);
-        } else if ("Cá".equalsIgnoreCase(loai)) {
-            holder.imgSP.setImageResource(R.drawable.ic_fish);
-        } else {
-            holder.imgSP.setImageResource(R.drawable.ic_paw);
-        }
+        // Hiển thị ảnh sản phẩm
+        FormatUtils.loadProductImage(holder.imgSP, item.getSanPham().getHinhAnh(), item.getSanPham().getLoaiThuCung());
 
         // Minus
         holder.btnGiam.setOnClickListener(v -> {

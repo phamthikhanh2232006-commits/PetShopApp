@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:background="@color/background">
 
     <!-- Top Bar -->
@@ -44,23 +45,63 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Avatar picker -->
-            <FrameLayout
-                android:id="@+id/layoutThuCungAvatarPicker"
-                android:layout_width="88dp"
-                android:layout_height="88dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/bg_circle_avatar"
-                android:clickable="true"
-                android:focusable="true">
+            <!-- Avatar picker with clear upload button -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:layout_marginBottom="8dp">
 
-                <ImageView
-                    android:id="@+id/imgThuCungAvatar"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_paw" />
-            </FrameLayout>
+                <RelativeLayout
+                    android:id="@+id/layoutThuCungAvatarPicker"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:id="@+id/imgThuCungAvatar"
+                        android:layout_width="96dp"
+                        android:layout_height="96dp"
+                        android:background="@drawable/bg_circle_avatar"
+                        android:scaleType="centerCrop"
+                        android:padding="4dp"
+                        android:src="@drawable/ic_paw" />
+
+                    <!-- Small camera badge -->
+                    <TextView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:background="@drawable/bg_circle_avatar"
+                        android:gravity="center"
+                        android:text="📷"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+                <Button
+                    android:id="@+id/btnUploadAnhThuCung"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_button_secondary"
+                    android:paddingHorizontal="16dp"
+                    android:text="📷 Tải ảnh từ thiết bị"
+                    android:textColor="@color/primary"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvTrangThaiAnhThuCung"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Chạm để chọn ảnh đại diện cho bé cưng"
+                    android:textColor="@color/text_muted"
+                    android:textSize="12sp" />
+            </LinearLayout>
 
             <!-- Tên thú cưng -->
             <TextView

@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:background="@color/background">
 
     <LinearLayout
@@ -52,6 +54,58 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
+
+            <!-- Hình ảnh sản phẩm -->
+            <TextView style="@style/FormLabel" android:text="Hình ảnh sản phẩm *" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardPreviewSP"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp">
+                    <ImageView
+                        android:id="@+id/imgHinhAnhSP"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_paw" />
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/btnChonAnhSP"
+                        android:layout_width="wrap_content"
+                        android:layout_height="44dp"
+                        android:background="@drawable/bg_button_secondary"
+                        android:paddingHorizontal="16dp"
+                        android:text="📷 Chọn ảnh từ thiết bị"
+                        android:textColor="@color/primary"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvTrangThaiAnh"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="Chưa chọn ảnh (dùng ảnh minh họa)"
+                        android:textColor="@color/text_muted"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
 
             <TextView style="@style/FormLabel" android:text="Tên sản phẩm / Phụ kiện *" />
             <EditText android:id="@+id/etTenSP" style="@style/FormInput" android:hint="VD: Áo len cổ lọ cho cún" />
@@ -116,11 +170,73 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <TextView style="@style/FormLabel" android:text="Kích cỡ (phân tách bởi dấu phẩy)" />
-            <EditText android:id="@+id/etKichCo" style="@style/FormInput" android:hint="S, M, L, XL hoặc 500g, 1kg" />
+            <!-- Kích cỡ: Chọn từ danh sách -->
+            <TextView style="@style/FormLabel" android:text="Kích cỡ (Chọn từ danh sách) *" />
+            <RelativeLayout
+                android:id="@+id/layoutChonKichCo"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/bg_rounded_edittext"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingHorizontal="14dp">
 
-            <TextView style="@style/FormLabel" android:text="Màu sắc (phân tách bởi dấu phẩy)" />
-            <EditText android:id="@+id/etMauSac" style="@style/FormInput" android:hint="Đỏ, Xanh, Vàng" />
+                <EditText
+                    android:id="@+id/etKichCo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toStartOf="@id/icArrowKichCo"
+                    android:background="@null"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:hint="Chạm để chọn kích cỡ (S, M, L, 500g, 530ml...)"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_muted"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/icArrowKichCo"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_chevron_right" />
+            </RelativeLayout>
+
+            <!-- Màu sắc: Chọn từ danh sách -->
+            <TextView style="@style/FormLabel" android:text="Màu sắc (Chọn từ danh sách) *" />
+            <RelativeLayout
+                android:id="@+id/layoutChonMauSac"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/bg_rounded_edittext"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingHorizontal="14dp">
+
+                <EditText
+                    android:id="@+id/etMauSac"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toStartOf="@id/icArrowMauSac"
+                    android:background="@null"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:hint="Chạm để chọn màu sắc (Đỏ, Xanh, Tím, Vàng...)"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_muted"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/icArrowMauSac"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_chevron_right" />
+            </RelativeLayout>
 
             <TextView style="@style/FormLabel" android:text="Mô tả chi tiết" />
             <EditText

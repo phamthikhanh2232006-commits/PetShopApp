@@ -111,7 +111,8 @@ public class DanhSachSanPhamActivity extends AppCompatActivity implements SanPha
     }
 
     private void showSizeFilterDialog() {
-        String[] sizes = {"Tất cả", "S", "M", "L", "XL", "500g", "1kg", "2kg"};
+        List<String> sizeList = dbHelper.getAllDistinctSizes();
+        String[] sizes = sizeList.toArray(new String[0]);
         new AlertDialog.Builder(this)
                 .setTitle("Lọc theo kích cỡ (Size)")
                 .setItems(sizes, (dialog, which) -> {
@@ -125,7 +126,8 @@ public class DanhSachSanPhamActivity extends AppCompatActivity implements SanPha
     }
 
     private void showColorFilterDialog() {
-        String[] colors = {"Tất cả", "Đỏ", "Xanh", "Vàng", "Hồng", "Nâu", "Trắng", "Đen"};
+        List<String> colorList = dbHelper.getAllDistinctColors();
+        String[] colors = colorList.toArray(new String[0]);
         new AlertDialog.Builder(this)
                 .setTitle("Lọc theo màu sắc")
                 .setItems(colors, (dialog, which) -> {

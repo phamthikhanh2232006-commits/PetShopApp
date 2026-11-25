@@ -47,16 +47,7 @@ public class ThuCungAdapter extends RecyclerView.Adapter<ThuCungAdapter.ViewHold
         holder.tvMoTa.setText(tc.getMoTaNgan());
         holder.tvGioiTinh.setText(tc.getGioiTinh() != null ? tc.getGioiTinh() : "Không rõ");
 
-        String hinhAnh = tc.getHinhAnh();
-        if (hinhAnh != null && !hinhAnh.isEmpty()) {
-            try {
-                holder.imgTC.setImageURI(Uri.parse(hinhAnh));
-            } catch (Exception e) {
-                setSpeciesIcon(holder.imgTC, tc.getLoaiThuCung());
-            }
-        } else {
-            setSpeciesIcon(holder.imgTC, tc.getLoaiThuCung());
-        }
+        com.example.petshop.utils.FormatUtils.loadPetImage(holder.imgTC, tc.getHinhAnh(), tc.getLoaiThuCung());
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) listener.onThuCungClick(tc);

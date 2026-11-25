@@ -4,7 +4,9 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -48,6 +50,9 @@ public class HoSoThuCungActivity extends AppCompatActivity implements ThuCungAda
     private ThuCungAdapter adapter;
     private ImageView imgThuCungAvatar;
 
+    private TextView tvTrangThaiAnhTC;
+    private Button btnUploadAnhTC;
+
     private String selectedBirthDate = "";
     private String selectedPetAvatarUri = "";
 
@@ -75,16 +80,23 @@ public class HoSoThuCungActivity extends AppCompatActivity implements ThuCungAda
         etGhiChu = findViewById(R.id.etGhiChuThuCung);
         rvThuCung = findViewById(R.id.rvThuCungCuaToi);
         imgThuCungAvatar = findViewById(R.id.imgThuCungAvatar);
+        btnUploadAnhTC = findViewById(R.id.btnUploadAnhThuCung);
+        tvTrangThaiAnhTC = findViewById(R.id.tvTrangThaiAnhThuCung);
 
         rvThuCung.setLayoutManager(new LinearLayoutManager(this));
 
         findViewById(R.id.btnBackHoSoThuCung).setOnClickListener(v -> finish());
 
         // Pick pet image from device storage
-        findViewById(R.id.layoutThuCungAvatarPicker).setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(intent, REQUEST_CODE_PICK_PET_IMAGE);
-        });
+        View.OnClickListener pickImageListener = v -> {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("image/*");
+            startActivityForResult(Intent.createChooser(intent, "Chọn ảnh thú cưng"), REQUEST_CODE_PICK_PET_IMAGE);
+        };
+        findViewById(R.id.layoutThuCungAvatarPicker).setOnClickListener(pickImageListener);
+        if (btnUploadAnhTC != null) {
+            btnUploadAnhTC.setOnClickListener(pickImageListener);
+        }
 
         // Setup Spinner loài
         String[] loaiOptions = {"Chó", "Mèo", "Chim", "Cá", "Thú cưng khác"};
@@ -113,9 +125,29 @@ public class HoSoThuCungActivity extends AppCompatActivity implements ThuCungAda
         if (requestCode == REQUEST_CODE_PICK_PET_IMAGE && resultCode == RESULT_OK && data != null) {
             Uri uri = data.getData();
             if (uri != null) {
-                selectedPetAvatarUri = uri.toString();
-                imgThuCungAvatar.setImageURI(uri);
-                Toast.makeText(this, "Đã chọn ảnh đại diện thú cưng!", Toast.LENGTH_SHORT).show();
+                try {
+                    java.io.InputStream is = getContentResolver().openInputStream(uri);
+                    java.io.File dir = new java.io.File(getFilesDir(), "pets");
+                    if (!dir.exists()) dir.mkdirs();
+                    java.io.File dest = new java.io.File(dir, "pet_" + System.currentTimeMillis() + ".jpg");
+                    java.io.FileOutputStream fos = new java.io.FileOutputStream(dest);
+                    byte[] buf = new byte[4096];
+                    int len;
+                    while ((len = is.read(buf)) > 0) {
+                        fos.write(buf, 0, len);
+                    }
+                    fos.close();
+                    is.close();
+                    selectedPetAvatarUri = dest.getAbsolutePath();
+                    String loai = spnLoai.getSelectedItem() != null ? spnLoai.getSelectedItem().toString() : "Chó";
+                    com.example.petshop.utils.FormatUtils.loadPetImage(imgThuCungAvatar, selectedPetAvatarUri, loai);
+                    if (tvTrangThaiAnhTC != null) {
+                        tvTrangThaiAnhTC.setText("Đã chọn ảnh đại diện từ máy!");
+                    }
+                    Toast.makeText(this, "Đã chọn ảnh đại diện thú cưng!", Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Toast.makeText(this, "Lỗi khi lưu ảnh: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
@@ -172,6 +204,9 @@ public class HoSoThuCungActivity extends AppCompatActivity implements ThuCungAda
         selectedBirthDate = "";
         selectedPetAvatarUri = "";
         imgThuCungAvatar.setImageResource(R.drawable.ic_paw);
+        if (tvTrangThaiAnhTC != null) {
+            tvTrangThaiAnhTC.setText("Chạm để chọn ảnh đại diện cho bé cưng");
+        }
         rbDuc.setChecked(true);
     }
 

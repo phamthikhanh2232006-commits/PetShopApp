@@ -109,9 +109,8 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
         tvMaVach.setText("Mã: " + (sanPham.getMaVach() != null ? sanPham.getMaVach() : "SP" + sanPham.getId()));
         tvMoTa.setText(sanPham.getMoTa() != null ? sanPham.getMoTa() : "Sản phẩm phụ kiện chất lượng cao dành cho thú cưng.");
 
-        // Ảnh sản phẩm từ drawable
-        int drawableRes = FormatUtils.getProductDrawableRes(this, sanPham.getHinhAnh(), sanPham.getLoaiThuCung());
-        imgSP.setImageResource(drawableRes);
+        // Ảnh sản phẩm
+        FormatUtils.loadProductImage(imgSP, sanPham.getHinhAnh(), sanPham.getLoaiThuCung());
 
         // Render size chips
         String[] sizes = sanPham.getDanhSachSize();

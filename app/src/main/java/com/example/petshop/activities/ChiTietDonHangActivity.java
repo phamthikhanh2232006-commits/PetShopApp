@@ -1,5 +1,6 @@
 package com.example.petshop.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.widget.TextView;
@@ -96,7 +97,9 @@ public class ChiTietDonHangActivity extends AppCompatActivity {
         sb.append("========================================\n");
         sb.append("Cảm ơn quý khách đã mua sắm tại Pet Shop!\n");
 
+        final String invoiceContent = sb.toString();
         String fileName = "HoaDon_" + donHang.getMaDonHangHienThi().replace("#", "") + ".txt";
+        String savedPath = "";
 
         try {
             File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
@@ -105,30 +108,51 @@ public class ChiTietDonHangActivity extends AppCompatActivity {
             }
             File file = new File(downloadsDir, fileName);
             FileOutputStream fos = new FileOutputStream(file);
-            fos.write(sb.toString().getBytes("UTF-8"));
+            fos.write(invoiceContent.getBytes("UTF-8"));
             fos.close();
-
-            new AlertDialog.Builder(this)
-                    .setTitle("Xuất hóa đơn thành công")
-                    .setMessage("Đã tải xuống hóa đơn thành công về máy!\nĐường dẫn: Downloads/" + fileName)
-                    .setPositiveButton("OK", null)
-                    .show();
+            savedPath = file.getAbsolutePath();
         } catch (Exception e) {
             try {
                 File file = new File(getExternalFilesDir(null), fileName);
                 FileOutputStream fos = new FileOutputStream(file);
-                fos.write(sb.toString().getBytes("UTF-8"));
+                fos.write(invoiceContent.getBytes("UTF-8"));
                 fos.close();
-
-                new AlertDialog.Builder(this)
-                        .setTitle("Xuất hóa đơn thành công")
-                        .setMessage("Đã lưu file hóa đơn vào máy:\n" + file.getAbsolutePath())
-                        .setPositiveButton("OK", null)
-                        .show();
+                savedPath = file.getAbsolutePath();
             } catch (Exception ex) {
-                Toast.makeText(this, "Lỗi khi lưu file hóa đơn: " + ex.getMessage(), Toast.LENGTH_LONG).show();
+                // Ignore, still allow viewing and sharing
             }
         }
+
+        // Tự động đẩy file về máy tính Windows nếu đang chạy trên máy ảo (Port 8989)
+        final String finalFileName = fileName;
+        new Thread(() -> {
+            try {
+                java.net.URL url = new java.net.URL("http://10.0.2.2:8989/?filename=" + java.net.URLEncoder.encode(finalFileName, "UTF-8"));
+                java.net.HttpURLConnection conn = (java.net.HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setConnectTimeout(1500);
+                conn.setReadTimeout(1500);
+                conn.setDoOutput(true);
+                java.io.OutputStream os = conn.getOutputStream();
+                os.write(invoiceContent.getBytes("UTF-8"));
+                os.flush();
+                os.close();
+                conn.getResponseCode();
+                conn.disconnect();
+            } catch (Exception ignored) {
+                // Bỏ qua nếu không chạy trên máy ảo hoặc server chưa bật
+            }
+        }).start();
+
+        showInvoiceDialog(invoiceContent, fileName, savedPath);
+    }
+
+    private void showInvoiceDialog(String content, String fileName, String savedPath) {
+        new AlertDialog.Builder(this)
+                .setTitle("Xuất hóa đơn thành công")
+                .setMessage("Đã tải xuống hóa đơn thành công về máy!")
+                .setPositiveButton("OK", null)
+                .show();
     }
 
     private void displayDetails() {

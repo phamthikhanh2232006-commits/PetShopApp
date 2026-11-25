@@ -63,6 +63,8 @@ public class SanPham implements Serializable {
 
     public String getTenDM() { return tenDM; }
     public void setTenDM(String tenDM) { this.tenDM = tenDM; }
+    public String getTenDanhMuc() { return tenDM != null ? tenDM : ""; }
+    public void setTenDanhMuc(String tenDanhMuc) { this.tenDM = tenDanhMuc; }
 
     public String getLoaiThuCung() { return loaiThuCung; }
     public void setLoaiThuCung(String loaiThuCung) { this.loaiThuCung = loaiThuCung; }

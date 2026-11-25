@@ -595,25 +595,97 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public List<SanPham> searchSanPham(String keyword) {
-        List<SanPham> list = new ArrayList<>();
-        SQLiteDatabase db = getReadableDatabase();
-        String query = "%" + keyword.trim() + "%";
-        String sql = "SELECT sp.*, dm.tenDM FROM " + TABLE_SANPHAM + " sp " +
-                "LEFT JOIN " + TABLE_DANHMUC + " dm ON sp.maDM = dm.id " +
-                "WHERE sp.tenSP LIKE ? OR sp.moTa LIKE ? OR sp.maVach LIKE ? OR sp.loaiThuCung LIKE ? " +
-                "ORDER BY sp.id DESC";
-        Cursor c = db.rawQuery(sql, new String[]{query, query, query, query});
-        if (c.moveToFirst()) {
-            do {
-                list.add(cursorToSanPham(c));
-            } while (c.moveToNext());
+        List<SanPham> all = getAllSanPham();
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return all;
         }
-        c.close();
+        List<SanPham> list = new ArrayList<>();
+        String normKeyword = com.example.petshop.utils.FormatUtils.removeAccent(keyword);
+        String rawLowerKey = keyword.trim().toLowerCase();
+
+        for (SanPham sp : all) {
+            String normTen = com.example.petshop.utils.FormatUtils.removeAccent(sp.getTenSP());
+            String normMoTa = com.example.petshop.utils.FormatUtils.removeAccent(sp.getMoTa());
+            String normLoai = com.example.petshop.utils.FormatUtils.removeAccent(sp.getLoaiThuCung());
+            String normDanhMuc = com.example.petshop.utils.FormatUtils.removeAccent(sp.getTenDM());
+            String normKichCo = com.example.petshop.utils.FormatUtils.removeAccent(sp.getKichCo());
+            String normMauSac = com.example.petshop.utils.FormatUtils.removeAccent(sp.getMauSac());
+            String maVach = sp.getMaVach() != null ? sp.getMaVach().toLowerCase() : "";
+
+            if (normTen.contains(normKeyword) ||
+                normMoTa.contains(normKeyword) ||
+                normLoai.contains(normKeyword) ||
+                normDanhMuc.contains(normKeyword) ||
+                normKichCo.contains(normKeyword) ||
+                normMauSac.contains(normKeyword) ||
+                maVach.contains(rawLowerKey) ||
+                (sp.getTenSP() != null && sp.getTenSP().toLowerCase().contains(rawLowerKey))) {
+                list.add(sp);
+            }
+        }
         return list;
     }
 
+    public List<String> getAllDistinctColors() {
+        List<String> result = new ArrayList<>();
+        result.add("Tất cả");
+        String[] defaultColors = {"Đỏ", "Xanh", "Xanh dương", "Xanh lá", "Vàng", "Hồng", "Nâu", "Trắng", "Đen", "Tím", "Cam", "Xám"};
+        for (String dc : defaultColors) {
+            if (!result.contains(dc)) result.add(dc);
+        }
+        try {
+            SQLiteDatabase db = getReadableDatabase();
+            Cursor c = db.rawQuery("SELECT DISTINCT mauSac FROM " + TABLE_SANPHAM + " WHERE mauSac IS NOT NULL AND mauSac != ''", null);
+            if (c != null && c.moveToFirst()) {
+                do {
+                    String raw = c.getString(0);
+                    if (raw != null) {
+                        String[] parts = raw.split("[,;/-]");
+                        for (String p : parts) {
+                            String trimmed = p.trim();
+                            if (!trimmed.isEmpty() && !result.contains(trimmed)) {
+                                result.add(trimmed);
+                            }
+                        }
+                    }
+                } while (c.moveToNext());
+                c.close();
+            }
+        } catch (Exception ignored) {}
+        return result;
+    }
+
+    public List<String> getAllDistinctSizes() {
+        List<String> result = new ArrayList<>();
+        result.add("Tất cả");
+        String[] defaultSizes = {"S", "M", "L", "XL", "XXL", "Freesize", "500g", "1kg", "2kg", "5kg", "500ml", "530ml", "1 lít"};
+        for (String ds : defaultSizes) {
+            if (!result.contains(ds)) result.add(ds);
+        }
+        try {
+            SQLiteDatabase db = getReadableDatabase();
+            Cursor c = db.rawQuery("SELECT DISTINCT kichCo FROM " + TABLE_SANPHAM + " WHERE kichCo IS NOT NULL AND kichCo != ''", null);
+            if (c != null && c.moveToFirst()) {
+                do {
+                    String raw = c.getString(0);
+                    if (raw != null) {
+                        String[] parts = raw.split("[,;/-]");
+                        for (String p : parts) {
+                            String trimmed = p.trim();
+                            if (!trimmed.isEmpty() && !result.contains(trimmed)) {
+                                result.add(trimmed);
+                            }
+                        }
+                    }
+                } while (c.moveToNext());
+                c.close();
+            }
+        } catch (Exception ignored) {}
+        return result;
+    }
+
     public List<SanPham> getSanPhamBySpeciesOrCategory(String species, Long categoryId, String sizeFilter, String colorFilter, String sortOrder) {
-        List<SanPham> list = new ArrayList<>();
+        List<SanPham> rawList = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
 
         StringBuilder sql = new StringBuilder("SELECT sp.*, dm.tenDM FROM " + TABLE_SANPHAM + " sp ");
@@ -632,16 +704,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             args.add(String.valueOf(categoryId));
         }
 
-        if (sizeFilter != null && !sizeFilter.isEmpty() && !sizeFilter.equalsIgnoreCase("Tất cả")) {
-            sql.append("AND sp.kichCo LIKE ? ");
-            args.add("%" + sizeFilter + "%");
-        }
-
-        if (colorFilter != null && !colorFilter.isEmpty() && !colorFilter.equalsIgnoreCase("Tất cả")) {
-            sql.append("AND sp.mauSac LIKE ? ");
-            args.add("%" + colorFilter + "%");
-        }
-
         if ("gia_tang".equalsIgnoreCase(sortOrder)) {
             sql.append("ORDER BY sp.giaBan ASC");
         } else if ("gia_giam".equalsIgnoreCase(sortOrder)) {
@@ -653,11 +715,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor c = db.rawQuery(sql.toString(), args.toArray(new String[0]));
         if (c.moveToFirst()) {
             do {
-                list.add(cursorToSanPham(c));
+                rawList.add(cursorToSanPham(c));
             } while (c.moveToNext());
         }
         c.close();
-        return list;
+
+        // Accent-insensitive and flexible filtering for size and color
+        List<SanPham> finalList = new ArrayList<>();
+        String normSize = (sizeFilter != null && !sizeFilter.equalsIgnoreCase("Tất cả")) ? com.example.petshop.utils.FormatUtils.removeAccent(sizeFilter) : null;
+        String normColor = (colorFilter != null && !colorFilter.equalsIgnoreCase("Tất cả")) ? com.example.petshop.utils.FormatUtils.removeAccent(colorFilter) : null;
+
+        for (SanPham sp : rawList) {
+            boolean sizeMatch = true;
+            if (normSize != null) {
+                String spSize = com.example.petshop.utils.FormatUtils.removeAccent(sp.getKichCo());
+                sizeMatch = spSize.contains(normSize);
+            }
+            boolean colorMatch = true;
+            if (normColor != null) {
+                String spColor = com.example.petshop.utils.FormatUtils.removeAccent(sp.getMauSac());
+                colorMatch = spColor.contains(normColor);
+            }
+            if (sizeMatch && colorMatch) {
+                finalList.add(sp);
+            }
+        }
+        return finalList;
     }
 
     public long insertSanPham(SanPham sp) {
@@ -1160,7 +1243,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "(SELECT COUNT(*) FROM " + TABLE_DONHANG + " WHERE trangThai = 'ChoXuLy') AS donChoXuLy, " +
                 "(SELECT COUNT(*) FROM " + TABLE_SANPHAM + ") AS tongSanPham, " +
                 "(SELECT COUNT(*) FROM " + TABLE_SANPHAM + " WHERE soLuongTon <= mucCanhBao) AS sanPhamSapHet, " +
-                "(SELECT IFNULL(SUM(tongTien), 0) FROM " + TABLE_DONHANG + " WHERE trangThai IN ('DaThanhToan', 'HoanThanh')) AS tongDoanhThu, " +
+                "(SELECT IFNULL(SUM(tongTien), 0) FROM " + TABLE_DONHANG + " WHERE trangThai != 'DaHuy') AS tongDoanhThu, " +
                 "(SELECT COUNT(*) FROM " + TABLE_KHACHHANG + ") AS tongKhachHang, " +
                 "(SELECT COUNT(*) FROM " + TABLE_THUCUNG + ") AS tongThuCung";
         return db.rawQuery(sql, null);
